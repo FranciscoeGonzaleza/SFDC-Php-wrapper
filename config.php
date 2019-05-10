@@ -3,7 +3,7 @@
  * Autor: Francisco Gonzalez
  * version: 1.0
  * Created on: May 2019 
- * Core class file.
+ * Configuration file.
  *
  * The base configuration to create a access Salesforce REST services
  *
