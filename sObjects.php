@@ -106,6 +106,49 @@ class sObjects extends Core {
         
     }
     
+    /**
+    * function describe.
+    *
+    * @param string $sObject
+    *   Salesforce object name: Account
+    * 
+    *  returns an object
+    */
+    function describe($sObject) {
+        $lStr_endpoint = $this->endPoint."$sObject/describe/";
+        
+        return $this->makeCall($lStr_endpoint);
+        
+        
+    }
+    
+    /**
+    * function getPicklistValues.
+    *
+    * @param string $sObject
+    *   Salesforce object name: Contact
+    * @param string $fieldName
+    *   Field Name: Salutation 
+    * 
+    *  returns an object
+    */
+    function getPicklistValues($sObject, $fieldName) {
+        $lObj_describe = $this->describe($sObject);
+        
+        foreach($lObj_describe->fields as $key => $value) {
+            
+            if ($value['name'] == $fieldName){
+                return $value['picklistValues'];
+            }
+            
+           
+        }
+        
+        return Null;
+        
+        
+    }
+    
 
 }
 ?>
