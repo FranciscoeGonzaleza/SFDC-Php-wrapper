@@ -123,17 +123,27 @@ class Core {
         
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         
-        curl_close($curl);
-        
-        /*
-        
         if ( $status != 200 ) {
-            die("Error: call to URL $lStr_endpoint failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+            
+            $json_response = json_decode($json_response, true);
+         
+            $response = (object) array ("errorCode" => $json_response[0]["errorCode"],
+                               "message" => $json_response[0]["message"],
+                               "fields" => $json_response[0]["fields"],
+                               "resource" => $pResource,
+                               "status" => $status,
+                               "curl_error" => curl_error($curl),
+                               "curl_errno" => curl_errno($curl),
+                               "response" => $json_response,
+                              );
+        }else{
+            $response = (object)json_decode($json_response, true);
         }
         
-        */
+        
+        curl_close($curl);
 
-        $response = (object)json_decode($json_response, true);
+        
         
         return $response; 
       
@@ -141,4 +151,3 @@ class Core {
 
 
 }
-
