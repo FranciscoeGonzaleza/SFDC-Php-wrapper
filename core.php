@@ -123,19 +123,22 @@ class Core {
         
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         
-        if ( $status != 200 ) {
+        if ( $status != 200 //OK
+            &&  $status != 201 //Created
+           ) {
             
             $json_response = json_decode($json_response, true);
          
-            $response = (object) array ("errorCode" => $json_response[0]["errorCode"],
-                               "message" => $json_response[0]["message"],
-                               "fields" => $json_response[0]["fields"],
-                               "resource" => $pResource,
-                               "status" => $status,
-                               "curl_error" => curl_error($curl),
-                               "curl_errno" => curl_errno($curl),
-                               "response" => $json_response,
-                              );
+            $response = (object) array (
+                "errorCode" => $json_response[0]["errorCode"],
+                "message" => $json_response[0]["message"],
+                "fields" => $json_response[0]["fields"],
+                "resource" => $pResource,
+                "status" => $status,
+                "curl_error" => curl_error($curl),
+                "curl_errno" => curl_errno($curl),
+                "response" => $json_response,
+            );
         }else{
             $response = (object)json_decode($json_response, true);
         }
