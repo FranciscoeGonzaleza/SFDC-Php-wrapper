@@ -5,7 +5,7 @@
  * Created on: May 2019 
  * Configuration file.
  *
- * The base configuration to create a access Salesforce REST services
+ * The base configuration to create access to Salesforce REST services
  *
  */
 

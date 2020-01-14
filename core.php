@@ -28,8 +28,8 @@ class Core {
     public $access_token = null;
 
     /**
-    * @var string $access_token
-    *   Access token
+    * @var string $apiVersion
+    *   API Version
     */
     public $apiVersion = '45.0';
     
