@@ -28,8 +28,8 @@ class Core {
     public $access_token = null;
 
     /**
-    * @var string $apiVersion
-    *   API Version
+    * @var string $access_token
+    *   Access token
     */
     public $apiVersion = '45.0';
     
@@ -96,7 +96,9 @@ class Core {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array("Authorization: OAuth ".$this->access_token->access_token,
-                     "Content-type: application/json"));
+                     "Content-type: application/json",
+                     "Content-Length: ". strlen($pData)
+                     ));
         
         
         switch (strtoupper($pMethod)) {
@@ -117,6 +119,13 @@ class Core {
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
                 //success status == 204 
             break;
+            case 'POST' : 
+				// Set the cURL custom header
+				curl_setopt($curl, CURLOPT_POST, true);
+                //curl_setopt($curl, 'inputs', $pData);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $pData);
+                //success status == 204 
+            break;
         }
 
         $json_response = curl_exec($curl);
@@ -125,6 +134,7 @@ class Core {
         
         if ( $status != 200 //OK
             &&  $status != 201 //Created
+            &&  $status != 204 //Created
            ) {
             
             $json_response = json_decode($json_response, true);
@@ -132,7 +142,6 @@ class Core {
             $response = (object) array (
                 "errorCode" => $json_response[0]["errorCode"],
                 "message" => $json_response[0]["message"],
-                "fields" => $json_response[0]["fields"],
                 "resource" => $pResource,
                 "status" => $status,
                 "curl_error" => curl_error($curl),
